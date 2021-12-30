@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './item.entity';
 import { ItemsService } from './items.service';
@@ -10,6 +10,11 @@ export class ItemsController {
   @Get()
   getAllItem(): Promise<Item[]> {
     return this.itemsService.getAllItem();
+  }
+
+  @Get('/category')
+  getItemsByCategory(@Query('id') categoryId: number): Promise<Item[]> {
+    return this.itemsService.getItemsByCategory(categoryId);
   }
 
   @Post()

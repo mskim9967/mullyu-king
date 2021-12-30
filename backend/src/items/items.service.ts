@@ -18,6 +18,18 @@ export class ItemsService {
     return await this.itemRepository.find();
   }
 
+  async getItemsByCategory(categoryId: number): Promise<Item[]> {
+    const category: Category = await this.categoryRepository.findOne({
+      id: categoryId,
+    });
+    if (!category) throw new BadRequestException(`category is not valid`);
+
+    return await this.itemRepository.find({
+      where: { category: categoryId },
+      relations: ['category'],
+    });
+  }
+
   async createItem(createItemDto: CreateItemDto): Promise<Item> {
     const { name, description, categoryId } = createItemDto;
 
