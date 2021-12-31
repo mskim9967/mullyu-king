@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/categories/category.entity';
 import { CategoryRepository } from 'src/categories/category.repository';
@@ -19,7 +23,9 @@ export class ItemsService {
   }
 
   async getItemById(id: number): Promise<Item> {
-    return await this.itemRepository.findOne({ id });
+    const item = await this.itemRepository.findOne({ id });
+    if (!item) throw new NotFoundException(`item ${id} not found`);
+    return item;
   }
 
   async getItemsByCategory(categoryId: number): Promise<Item[]> {
@@ -70,5 +76,11 @@ export class ItemsService {
     item.discountPrice = status ? price : null;
     await this.itemRepository.save(item);
     return item;
+  }
+
+  async deleteItem(id: number): Promise<void> {
+    const result = await this.itemRepository.delete({ id });
+    if (!result.affected)
+      throw new NotFoundException(`can't find item id:${id}`);
   }
 }

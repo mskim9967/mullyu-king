@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseBoolPipe,
@@ -54,5 +55,10 @@ export class ItemsController {
     @Query('price') price: number,
   ): Promise<Item> {
     return this.itemsService.patchItemDiscountStatus(id, status, price);
+  }
+
+  @Delete('/:id')
+  deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.itemsService.deleteItem(id);
   }
 }
