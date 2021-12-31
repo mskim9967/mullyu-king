@@ -18,6 +18,18 @@ export class Item extends BaseEntity {
   @Column({ nullable: true })
   description: string;
 
+  @Column()
+  price: number;
+
+  @Column({ default: true })
+  onSale: boolean;
+
+  @Column({ default: false })
+  onDiscount: boolean;
+
+  @Column({ nullable: true })
+  discountPrice: number;
+
   @ManyToOne(() => Category, (category) => category.items)
   category: Category;
 }

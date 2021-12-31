@@ -9,5 +9,9 @@ export class CreateItemDto {
 
   @IsNotEmpty()
   @IsNumber()
+  price: number;
+
+  @IsNotEmpty()
+  @IsNumber()
   categoryId: number;
 }
