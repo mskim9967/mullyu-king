@@ -13,7 +13,7 @@ import { CategoriesService } from './categories.service';
 import { Category } from './category.entity';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
-@Controller('categories')
+@Controller('api/categories')
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
 

@@ -14,7 +14,7 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './item.entity';
 import { ItemsService } from './items.service';
 
-@Controller('items')
+@Controller('api/items')
 export class ItemsController {
   constructor(private itemsService: ItemsService) {}
 
@@ -26,6 +26,21 @@ export class ItemsController {
   @Post()
   createItem(@Body() createItemDto: CreateItemDto): Promise<Item> {
     return this.itemsService.createItem(createItemDto);
+  }
+
+  @Get('/onSale')
+  getSaleItems(): Promise<Item[]> {
+    return this.itemsService.getSaleItems();
+  }
+
+  @Get('/onSale/search')
+  searchSaleItemsByName(@Query('name') name: string): Promise<Item[]> {
+    return this.itemsService.searchSaleItemsByName(name);
+  }
+
+  @Get('/onDiscount')
+  getDiscountItems(): Promise<Item[]> {
+    return this.itemsService.getDiscountItems();
   }
 
   @Get('/category')

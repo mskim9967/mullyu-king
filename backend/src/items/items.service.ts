@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/categories/category.entity';
 import { CategoryRepository } from 'src/categories/category.repository';
+import { Like } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './item.entity';
 import { ItemRepository } from './item.repository';
@@ -19,11 +20,19 @@ export class ItemsService {
   ) {}
 
   async getAllItem(): Promise<Item[]> {
-    return await this.itemRepository.find();
+    return await this.itemRepository.find({
+      relations: ['category', 'imgs'],
+      order: {
+        orderNum: 'ASC',
+      },
+    });
   }
 
   async getItemById(id: number): Promise<Item> {
-    const item = await this.itemRepository.findOne({ id });
+    const item = await this.itemRepository.findOne({
+      where: { id },
+      relations: ['category', 'imgs', 'primaryImg'],
+    });
     if (!item) throw new NotFoundException(`item ${id} not found`);
     return item;
   }
@@ -36,7 +45,40 @@ export class ItemsService {
 
     return await this.itemRepository.find({
       where: { category: categoryId },
-      relations: ['category'],
+      relations: ['category', 'imgs'],
+      order: {
+        orderNum: 'ASC',
+      },
+    });
+  }
+
+  async getSaleItems(): Promise<Item[]> {
+    return await this.itemRepository.find({
+      where: { onSale: true },
+      relations: ['category', 'imgs', 'primaryImg'],
+      order: {
+        orderNum: 'ASC',
+      },
+    });
+  }
+
+  async searchSaleItemsByName(name: string): Promise<Item[]> {
+    return await this.itemRepository.find({
+      where: { onSale: true, name: Like(`%${name}%`) },
+      relations: ['category', 'imgs', 'primaryImg'],
+      order: {
+        orderNum: 'ASC',
+      },
+    });
+  }
+
+  async getDiscountItems(): Promise<Item[]> {
+    return await this.itemRepository.find({
+      where: { onSale: true, onDiscount: true },
+      relations: ['category', 'imgs'],
+      order: {
+        orderNum: 'ASC',
+      },
     });
   }
 

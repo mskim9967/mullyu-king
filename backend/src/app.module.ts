@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { typeORMConfig } from './config/typeorm.config';
 import { ItemsModule } from './items/items.module';
 import { CategoriesModule } from './categories/categories.module';
+import { StaticModule } from './static/static.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CategoriesModule } from './categories/categories.module';
     TypeOrmModule.forRoot(typeORMConfig),
     ItemsModule,
     CategoriesModule,
+    StaticModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -20,7 +20,10 @@ export class CategoriesService {
       throw new NotFoundException(`category ${rootCategoryName} not exist`);
 
     const categories: Category[] = await this.categoryRepository.find({
-      parentId: rootCategory.id,
+      where: { parentId: rootCategory.id },
+      order: {
+        orderNum: 'ASC',
+      },
     });
 
     return categories;

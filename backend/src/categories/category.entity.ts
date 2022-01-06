@@ -3,6 +3,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  Generated,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -20,6 +21,10 @@ export class Category extends BaseEntity {
 
   @Column({ nullable: true })
   parentId: number;
+
+  @Column({ nullable: true })
+  @Generated('increment')
+  orderNum: number;
 
   @OneToMany(() => Item, (item) => item.category)
   items: Item[];
