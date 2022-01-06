@@ -24,6 +24,11 @@ export class CategoriesController {
     return this.categoriesService.getCategoriesByName(rootCategoryName);
   }
 
+  @Post('/item')
+  createItemCategory(@Body('name') name: string): Promise<Category> {
+    return this.categoriesService.createItemCategory(name);
+  }
+
   @Post()
   createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
@@ -31,12 +36,20 @@ export class CategoriesController {
     return this.categoriesService.createCategory(createCategoryDto);
   }
 
-  @Patch(':id/rename')
+  @Patch('/:id/rename')
   renameCategory(
     @Param('id', ParseIntPipe) id: number,
-    @Query('name') name: string,
+    @Body('name') name: string,
   ): Promise<Category> {
     return this.categoriesService.renameCategory(id, name);
+  }
+
+  @Patch('/swap')
+  swapCategoryOrder(
+    @Body('category1Id') category1Id: number,
+    @Body('category2Id') category2Id: number,
+  ): Promise<void> {
+    return this.categoriesService.swapCategoryOrder(category1Id, category2Id);
   }
 
   @Delete('/:id')

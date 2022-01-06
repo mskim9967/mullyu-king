@@ -76,4 +76,12 @@ export class ItemsController {
   deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.itemsService.deleteItem(id);
   }
+
+  @Patch('/swap')
+  swapItemOrder(
+    @Body('item1Id') item1Id: number,
+    @Body('item2Id') item2Id: number,
+  ): Promise<void> {
+    return this.itemsService.swapItemOrder(item1Id, item2Id);
+  }
 }

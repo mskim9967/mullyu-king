@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ParseIntPipe } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './category.entity';
 import { CategoryRepository } from './category.repository';
@@ -21,6 +21,7 @@ export class CategoriesService {
 
     const categories: Category[] = await this.categoryRepository.find({
       where: { parentId: rootCategory.id },
+      relations: ['items'],
       order: {
         orderNum: 'ASC',
       },
@@ -45,11 +46,40 @@ export class CategoriesService {
     return category;
   }
 
+  async createItemCategory(name: string): Promise<Category> {
+    const itemCategory = await this.categoryRepository.findOne({
+      name: 'item',
+    });
+    const category = this.categoryRepository.create({
+      name,
+      isRoot: false,
+      parentId: itemCategory.id,
+    });
+    await this.categoryRepository.save(category);
+
+    return category;
+  }
+
   async renameCategory(id: number, name: string): Promise<Category> {
     const category = await this.getCategoryById(id);
     category.name = name;
     await this.categoryRepository.save(category);
     return category;
+  }
+
+  async swapCategoryOrder(
+    category1Id: number,
+    category2Id: number,
+  ): Promise<void> {
+    const category1 = await this.getCategoryById(category1Id);
+    const category2 = await this.getCategoryById(category2Id);
+
+    const temp = category1.orderNum;
+    category1.orderNum = category2.orderNum;
+    category2.orderNum = temp;
+
+    await this.categoryRepository.save(category1);
+    await this.categoryRepository.save(category2);
   }
 
   async deleteCategory(id: number): Promise<void> {

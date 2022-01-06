@@ -125,4 +125,16 @@ export class ItemsService {
     if (!result.affected)
       throw new NotFoundException(`can't find item id:${id}`);
   }
+
+  async swapItemOrder(item1Id: number, item2Id: number): Promise<void> {
+    const item1 = await this.getItemById(item1Id);
+    const item2 = await this.getItemById(item2Id);
+
+    const temp = item1.orderNum;
+    item1.orderNum = item2.orderNum;
+    item2.orderNum = temp;
+
+    await this.itemRepository.save(item1);
+    await this.itemRepository.save(item2);
+  }
 }
