@@ -34,7 +34,7 @@ function App() {
 }
 
 const styles = {
-  content: { height: '100%', overflow: 'scroll', background: '#ffffff' },
+  content: { height: '100%', overflow: 'auto', background: '#ffffff' },
 };
 
 export default App;

@@ -14,9 +14,8 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/material/Checkbox';
 
-import { CreateCategoryModal } from './CreateCategoryModal';
-import { EditCategoryModal } from './EditCategoryModal';
 import { CreateItemModal } from './CreateItemModal';
+import { EditItemModal } from './EditItemModal';
 
 export function ItemScreen() {
   const [categories, setCategories] = useState([]);
@@ -168,8 +167,8 @@ export function ItemScreen() {
         </Button>
       </div>
 
-      <CreateItemModal modalOn={createItemModalOn} setModalOn={setCreateItemModal} />
-      <EditCategoryModal item={item} modalOn={editItemModalOn} setModalOn={setEditItemModal} />
+      <CreateItemModal categories={categories} modalOn={createItemModalOn} setModalOn={setCreateItemModal} />
+      <EditItemModal itemId={item?.id} categories={categories} modalOn={editItemModalOn} setModalOn={setEditItemModal} />
     </>
   );
 }

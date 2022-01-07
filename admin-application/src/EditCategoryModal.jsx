@@ -5,23 +5,23 @@ import SaveIcon from '@mui/icons-material/Save';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 
-export function EditCategoryModal({ modalOn, setModalOn, item }) {
+export function EditCategoryModal({ modalOn, setModalOn, category }) {
   const [name, setName] = useState();
 
   useEffect(() => {
-    if (modalOn) setName(item.name);
+    if (modalOn) setName(category.name);
   }, [modalOn]);
 
   return (
     <Modal open={modalOn} onClose={() => setModalOn(false)}>
       <div style={styles.modal}>
-        <div style={styles.textHeader}>상품 이름 변경</div>
+        <div style={styles.textHeader}>카테고리 이름 변경</div>
         <TextField onChange label='변경할 이름' variant='filled' size='small' fullWidth value={name} onChange={(e) => setName(e.target.value)} />
         <Button
           onClick={async () => {
             if (!name) return;
             setModalOn(false);
-            await axiosInstance.patch(`/categories/${item.id}/rename`, {
+            await axiosInstance.patch(`/categories/${category.id}/rename`, {
               name,
             });
 
@@ -51,7 +51,7 @@ const styles = {
     padding: 20,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    aligncategorys: 'center',
   },
 
   textHeader: {
