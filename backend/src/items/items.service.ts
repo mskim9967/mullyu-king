@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/categories/category.entity';
 import { CategoryRepository } from 'src/categories/category.repository';
+import { ItemImgRepository } from 'src/static/itemImg.repository';
 import { Like } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './item.entity';
@@ -17,11 +18,13 @@ export class ItemsService {
     @InjectRepository(ItemRepository) private itemRepository: ItemRepository,
     @InjectRepository(CategoryRepository)
     private categoryRepository: CategoryRepository,
+    @InjectRepository(ItemImgRepository)
+    private itemImgRepository: ItemImgRepository,
   ) {}
 
   async getAllItem(): Promise<Item[]> {
     return await this.itemRepository.find({
-      relations: ['category', 'imgs'],
+      relations: ['category', 'imgs', 'primaryImg'],
       order: {
         orderNum: 'ASC',
       },
@@ -98,6 +101,30 @@ export class ItemsService {
     item.category = category;
     await this.itemRepository.save(item);
 
+    return item;
+  }
+
+  async patchItem(id, body): Promise<Item> {
+    const { name, description, price, categoryId, primaryImgKey } = body;
+    const item = await this.getItemById(id);
+
+    if (name !== undefined) item.name = name;
+    if (description !== undefined) item.description = description;
+    if (price !== undefined) item.price = price;
+    if (primaryImgKey !== undefined) {
+      const itemImg = await this.itemImgRepository.findOne({
+        key: primaryImgKey,
+      });
+      item.primaryImg = itemImg;
+    }
+    if (categoryId !== undefined) {
+      const category: Category = await this.categoryRepository.findOne({
+        id: categoryId,
+      });
+      item.category = category;
+    }
+
+    await this.itemRepository.save(item);
     return item;
   }
 

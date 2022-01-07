@@ -55,6 +55,14 @@ export class ItemsController {
     return this.itemsService.getItemById(id);
   }
 
+  @Patch('/:id')
+  patchItem(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body,
+  ): Promise<Item> {
+    return this.itemsService.patchItem(id, body);
+  }
+
   @Patch('/:id/onSale')
   patchItemSaleStatus(
     @Param('id', ParseIntPipe) id: number,

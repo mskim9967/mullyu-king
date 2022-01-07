@@ -33,14 +33,20 @@ export class StaticService {
     if (!item) return res.status(404).json({ status: 'not found' });
     else {
       this.multerUpload(req, res, async () => {
+        console.log(req.files);
+
         const itemImg: ItemImg = this.itemImgRepository.create({
           key: req.files[0].key,
         });
         itemImg.item = item;
         await this.itemImgRepository.save(itemImg);
 
-        if (!item?.primaryImg) {
-          item.primaryImg = itemImg;
+        const getItemImg = await this.itemImgRepository.findOne({
+          id: itemImg.id,
+        });
+
+        if (!item.primaryImg) {
+          item.primaryImg = getItemImg;
           await this.itemRepository.save(item);
         }
 
@@ -48,6 +54,17 @@ export class StaticService {
       });
     }
   }
+
+  multerUpload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: AWS_S3_BUCKET_NAME,
+      ACL: 'public-read',
+      key: (req, file, cb) => {
+        cb(null, `${Date.now().toString()}`);
+      },
+    }),
+  }).array('image', 1);
 
   async getImageByKey(@Req() req, @Res() res, key: string) {
     s3.getObject(
@@ -64,14 +81,9 @@ export class StaticService {
     );
   }
 
-  multerUpload = multer({
-    storage: multerS3({
-      s3: s3,
-      bucket: AWS_S3_BUCKET_NAME,
-      ACL: 'public-read',
-      key: (req, file, cb) => {
-        cb(null, `${Date.now().toString()}`);
-      },
-    }),
-  }).array('upload', 1);
+  async deleteImageByKey(key: string) {
+    const result = await this.itemImgRepository.delete({ key });
+    if (!result.affected)
+      throw new NotFoundException(`can't find image key:${key}`);
+  }
 }

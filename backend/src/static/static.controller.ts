@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -25,5 +26,10 @@ export class StaticController {
   @Get('/:key')
   async getImageByKey(@Req() req, @Res() res, @Param('key') key: string) {
     await this.staticService.getImageByKey(req, res, key);
+  }
+
+  @Delete('/:key')
+  async deleteImageByKey(@Param('key') key: string) {
+    await this.staticService.deleteImageByKey(key);
   }
 }
