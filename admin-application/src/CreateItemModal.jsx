@@ -62,6 +62,7 @@ export function CreateItemModal({ modalOn, setModalOn, categories }) {
                 maxWidthOrHeight: 1000,
               })
             );
+
             let itemId = (
               await axiosInstance.post('/items', {
                 name,

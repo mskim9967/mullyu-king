@@ -106,7 +106,9 @@ export function ItemScreen() {
               >
                 <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 6 }}>{item.name}</div>
                 <div style={{ fontSize: 12 }}>{item.category.name}</div>
-                <div style={{ fontSize: 12 }}>{item.onDiscount ? `(할인) ${item.discountPrice}원 ` : `${item.price}원`}</div>
+                <div style={{ fontSize: 12, ...(item.onDiscount && { backgroundColor: 'yellow' }) }}>
+                  {item.onDiscount ? `(할인) ${item.discountPrice}원 ` : `${item.price}원`}
+                </div>
               </div>
               {/* <IconButton
                 style={{ flex: 1 }}

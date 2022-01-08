@@ -4,7 +4,7 @@ import axiosInstance from './axios-instance';
 import SaveIcon from '@mui/icons-material/Save';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import { FormControl, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
+import { Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
 import { EditImageModal } from './EditImageModal';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -18,6 +18,8 @@ export function EditItemModal({ modalOn, setModalOn, itemId, categories }) {
   const [price, setPrice] = useState();
   const [categoryId, setCategoryId] = useState();
   const [primaryImgKey, setPrimaryImgKey] = useState();
+  const [onDiscount, setDiscount] = useState();
+  const [discountPrice, setDiscountPrice] = useState();
   const [image, setImage] = useState();
 
   const [reload, reloadTrigger] = useState(false);
@@ -39,6 +41,8 @@ export function EditItemModal({ modalOn, setModalOn, itemId, categories }) {
       setPrice(item.price);
       setCategoryId(item.category.id);
       setPrimaryImgKey(item.primaryImg?.key);
+      setDiscount(item.onDiscount);
+      setDiscountPrice(item.discountPrice);
     }
   }, [item]);
 
@@ -63,7 +67,16 @@ export function EditItemModal({ modalOn, setModalOn, itemId, categories }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <TextField onChange label='상품 가격' variant='filled' size='small' fullWidth value={price} onChange={(e) => setPrice(e.target.value)} />
+            <TextField
+              onChange
+              label='상품 가격'
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+              variant='filled'
+              size='small'
+              fullWidth
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
             <FormControl fullWidth>
               <InputLabel>카테고리</InputLabel>
               <Select value={categoryId} label='카테고리' size='small' variant='filled' onChange={(e) => setCategoryId(e.target.value)}>
@@ -72,6 +85,22 @@ export function EditItemModal({ modalOn, setModalOn, itemId, categories }) {
                 })}
               </Select>
             </FormControl>
+
+            <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+              <div style={{ width: 50, fontWeight: 700, marginRight: -20 }}>할인</div>
+              <Checkbox size='small' checked={onDiscount} onChange={(e) => setDiscount(e.target.checked)} />
+
+              <TextField
+                fullWidth
+                disabled={!onDiscount}
+                label='할인 가격'
+                variant='filled'
+                size='small'
+                value={discountPrice}
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                onChange={(e) => setDiscountPrice(e.target.value)}
+              />
+            </div>
 
             <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
               <div style={{ display: 'flex', gap: 8, overflow: 'auto' }}>
@@ -148,6 +177,7 @@ export function EditItemModal({ modalOn, setModalOn, itemId, categories }) {
                 categoryId,
                 primaryImgKey,
               });
+              await axiosInstance.patch(`/items/${item.id}/onDiscount?status=${onDiscount}&price=${discountPrice}`);
 
               setModalOn(false);
             }}
