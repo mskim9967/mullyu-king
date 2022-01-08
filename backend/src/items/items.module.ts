@@ -5,6 +5,7 @@ import { ItemImgRepository } from 'src/static/itemImg.repository';
 import { ItemRepository } from './item.repository';
 import { ItemsController } from './items.controller';
 import { ItemsService } from './items.service';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ItemsService } from './items.service';
       CategoryRepository,
       ItemImgRepository,
     ]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [ItemsController],
   providers: [ItemsService],

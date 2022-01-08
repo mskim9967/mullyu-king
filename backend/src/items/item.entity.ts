@@ -42,10 +42,10 @@ export class Item extends BaseEntity {
   @ManyToOne(() => Category, (category) => category.items)
   category: Category;
 
-  @OneToOne(() => ItemImg, { nullable: true })
+  @OneToOne(() => ItemImg, { nullable: true, onDelete: 'CASCADE' })
   @JoinColumn()
   primaryImg: ItemImg;
 
-  @OneToMany(() => ItemImg, (itemImg) => itemImg.item)
+  @OneToMany(() => ItemImg, (itemImg) => itemImg.item, { onDelete: 'CASCADE' })
   imgs: ItemImg[];
 }

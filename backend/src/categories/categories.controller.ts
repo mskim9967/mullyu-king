@@ -8,10 +8,12 @@ import {
   Patch,
   Query,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { Category } from './category.entity';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/categories')
 export class CategoriesController {
@@ -25,11 +27,13 @@ export class CategoriesController {
   }
 
   @Post('/item')
+  @UseGuards(AuthGuard())
   createItemCategory(@Body('name') name: string): Promise<Category> {
     return this.categoriesService.createItemCategory(name);
   }
 
   @Post()
+  @UseGuards(AuthGuard())
   createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
   ): Promise<Category> {
@@ -37,6 +41,7 @@ export class CategoriesController {
   }
 
   @Patch('/:id/rename')
+  @UseGuards(AuthGuard())
   renameCategory(
     @Param('id', ParseIntPipe) id: number,
     @Body('name') name: string,
@@ -45,6 +50,7 @@ export class CategoriesController {
   }
 
   @Patch('/swap')
+  @UseGuards(AuthGuard())
   swapCategoryOrder(
     @Body('category1Id') category1Id: number,
     @Body('category2Id') category2Id: number,
@@ -53,6 +59,7 @@ export class CategoriesController {
   }
 
   @Delete('/:id')
+  @UseGuards(AuthGuard())
   deleteCategory(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.categoriesService.deleteCategory(id);
   }

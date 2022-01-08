@@ -33,8 +33,6 @@ export class StaticService {
     if (!item) return res.status(404).json({ status: 'not found' });
     else {
       this.multerUpload(req, res, async () => {
-        console.log(req.files);
-
         const itemImg: ItemImg = this.itemImgRepository.create({
           key: req.files[0].key,
         });

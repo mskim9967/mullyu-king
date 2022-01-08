@@ -9,21 +9,26 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { Item } from './item.entity';
 import { ItemsService } from './items.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/items')
 export class ItemsController {
   constructor(private itemsService: ItemsService) {}
 
   @Get()
-  getAllItem(): Promise<Item[]> {
+  getAllItem(@Req() req): Promise<Item[]> {
     return this.itemsService.getAllItem();
   }
 
   @Post()
+  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard())
   createItem(@Body() createItemDto: CreateItemDto): Promise<Item> {
     return this.itemsService.createItem(createItemDto);
   }
@@ -55,7 +60,17 @@ export class ItemsController {
     return this.itemsService.getItemById(id);
   }
 
+  @Patch('/swap')
+  @UseGuards(AuthGuard())
+  swapItemOrder(
+    @Body('item1Id', ParseIntPipe) item1Id: number,
+    @Body('item2Id', ParseIntPipe) item2Id: number,
+  ): Promise<void> {
+    return this.itemsService.swapItemOrder(item1Id, item2Id);
+  }
+
   @Patch('/:id')
+  @UseGuards(AuthGuard())
   patchItem(
     @Param('id', ParseIntPipe) id: number,
     @Body() body,
@@ -64,6 +79,7 @@ export class ItemsController {
   }
 
   @Patch('/:id/onSale')
+  @UseGuards(AuthGuard())
   patchItemSaleStatus(
     @Param('id', ParseIntPipe) id: number,
     @Query('status', ParseBoolPipe) status: boolean,
@@ -72,6 +88,7 @@ export class ItemsController {
   }
 
   @Patch('/:id/onDiscount')
+  @UseGuards(AuthGuard())
   patchItemDiscountStatus(
     @Param('id', ParseIntPipe) id: number,
     @Query('status', ParseBoolPipe) status: boolean,
@@ -81,15 +98,8 @@ export class ItemsController {
   }
 
   @Delete('/:id')
+  @UseGuards(AuthGuard())
   deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.itemsService.deleteItem(id);
-  }
-
-  @Patch('/swap')
-  swapItemOrder(
-    @Body('item1Id') item1Id: number,
-    @Body('item2Id') item2Id: number,
-  ): Promise<void> {
-    return this.itemsService.swapItemOrder(item1Id, item2Id);
   }
 }

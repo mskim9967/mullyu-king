@@ -16,6 +16,6 @@ export class ItemImg extends BaseEntity {
   @Column()
   key: string;
 
-  @ManyToOne(() => Item, (item) => item.imgs)
+  @ManyToOne(() => Item, (item) => item.imgs, { onDelete: 'CASCADE' })
   item: Item;
 }
