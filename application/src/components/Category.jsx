@@ -2,13 +2,13 @@ import { StyleSheet, View } from 'react-native';
 import Text from '../components/MyText';
 import colors from '../theme/colors';
 
-export default function Category(props) {
+export default function Category({ categoryBoxWidth, category, selectedCategoryId }) {
   return (
-    <View style={styles.categoryView}>
+    <View style={[styles.categoryView, { width: categoryBoxWidth }]}>
       <View
         style={[
           { padding: 6, borderRadius: 7, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
-          props.category.id === props.selectedCategoryId && { backgroundColor: colors.point1 },
+          category.id === selectedCategoryId && { backgroundColor: colors.point1 },
         ]}
       >
         <Text
@@ -19,10 +19,10 @@ export default function Category(props) {
             fontSize: 16,
             fontFamily: 'HSMedium',
             textAlign: 'center',
-            ...(props.category.id === props.selectedCategoryId && { color: colors.textLight }),
+            ...(category.id === selectedCategoryId && { color: colors.textLight }),
           }}
         >
-          {props.category.name}
+          {category.name}
         </Text>
       </View>
     </View>

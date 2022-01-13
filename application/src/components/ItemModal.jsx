@@ -1,15 +1,4 @@
-import {
-  Platform,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Animated,
-  Linking,
-  Dimensions,
-  Pressable,
-} from 'react-native';
+import { Modal, Platform, StyleSheet, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Animated, Linking } from 'react-native';
 import Image from 'react-native-image-progress';
 import Text from '../components/MyText';
 import colors from '../theme/colors';
@@ -17,16 +6,23 @@ import axiosInstance from '../axios-instance';
 import { useState, useEffect, useRef } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { phoneNumber } from '../assets/const-info';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
-const categoryBoxWidth = 60;
-const itemImgsBoxWidth = 270;
 const modalBorderRadius = 16;
 
-export default function ItemModal({ item, modalActived, setModalActived }) {
+export default function ItemModal({ item, modalActived, setModalActived, itemBoxWidth }) {
+  const itemImgsBoxWidth = Math.min(itemBoxWidth, 500) * 0.94;
   const itemImgsScrollViewRef = useRef();
+  const [pressedImgIdx, setPressedImgIdx] = useState();
+  const [urlList, setUrlList] = useState();
 
   useEffect(() => {
     if (modalActived) modalFadeIn();
+    const urlList = [];
+    item.imgs.map((img) => {
+      urlList.push({ url: `${axiosInstance.defaults.baseURL}/static/${img.key}` });
+    });
+    setUrlList(urlList);
   }, [modalActived]);
 
   const modalFadeAnim = useRef(new Animated.Value(0)).current;
@@ -51,6 +47,10 @@ export default function ItemModal({ item, modalActived, setModalActived }) {
     <>
       {modalActived && (
         <View style={styles.modalWrap}>
+          <Modal visible={pressedImgIdx ? true : false} transparent={true}>
+            <ImageViewer imageUrls={urlList} onCancel={() => setPressedImgIdx()} onClick={() => setPressedImgIdx()} index={pressedImgIdx} />
+          </Modal>
+
           <TouchableWithoutFeedback
             onPress={() => {
               modalFadeOut();
@@ -71,13 +71,15 @@ export default function ItemModal({ item, modalActived, setModalActived }) {
                       style={{ width: itemImgsBoxWidth, aspectRatio: 1, marginBottom: 10 }}
                       ref={itemImgsScrollViewRef}
                     >
-                      {item.imgs.map((img) => {
+                      {item.imgs.map((img, i) => {
                         return (
                           <View key={img.key} style={{ width: itemImgsBoxWidth, aspectRatio: 1 }} onStartShouldSetResponder={() => true}>
-                            <Image
-                              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-                              source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.key}` }}
-                            />
+                            <TouchableWithoutFeedback onPress={() => setPressedImgIdx(i)}>
+                              <Image
+                                style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
+                                source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.key}` }}
+                              />
+                            </TouchableWithoutFeedback>
                           </View>
                         );
                       })}
@@ -94,7 +96,7 @@ export default function ItemModal({ item, modalActived, setModalActived }) {
                               >
                                 <Image
                                   style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-                                  source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.key}` }}
+                                  source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.thumbKey}` }}
                                 />
                               </TouchableWithoutFeedback>
                             ) : (
@@ -105,7 +107,7 @@ export default function ItemModal({ item, modalActived, setModalActived }) {
                               >
                                 <Image
                                   style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-                                  source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.key}` }}
+                                  source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.thumbKey}` }}
                                 />
                               </TouchableOpacity>
                             )}
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
 
   modalView: {
     maxWidth: 500,
-    width: '80%',
+    width: '90%',
     backgroundColor: '#ffffff',
     borderRadius: modalBorderRadius,
 

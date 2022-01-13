@@ -36,23 +36,27 @@ export default function ItemsScreen({ navigation }) {
   return (
     <>
       <View style={styles.screenWrapper}>
-        {modalActived && <ItemModal modalActived={modalActived} setModalActived={setModalActived} item={selectedItem}></ItemModal>}
+        {modalActived && (
+          <ItemModal modalActived={modalActived} setModalActived={setModalActived} item={selectedItem} itemBoxWidth={itemBoxWidth}></ItemModal>
+        )}
 
         <Header navigation={navigation} style={styles.headerWrapper} />
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <View style={styles.categoriesView}>
-            {categories.map((category, i) => {
-              return (
-                <TouchableOpacity
-                  key={category.id}
-                  onPress={() => {
-                    setSelectedCategoryIdx(i);
-                  }}
-                >
-                  <Category category={category} selectedCategoryId={categories[selectedCategoryIdx]?.id} />
-                </TouchableOpacity>
-              );
-            })}
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {categories.map((category, i) => {
+                return (
+                  <TouchableOpacity
+                    key={category.id}
+                    onPress={() => {
+                      setSelectedCategoryIdx(i);
+                    }}
+                  >
+                    <Category category={category} selectedCategoryId={categories[selectedCategoryIdx]?.id} categoryBoxWidth={categoryBoxWidth} />
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
           </View>
           <ScrollView
             pagingEnabled

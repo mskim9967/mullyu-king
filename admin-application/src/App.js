@@ -94,7 +94,7 @@ function App() {
 }
 
 const styles = {
-  content: { height: '100%', overflow: 'auto', background: '#ffffff' },
+  content: { height: '100vh', overflow: 'auto', background: '#ffffff' },
 };
 
 export default App;
