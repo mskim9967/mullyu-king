@@ -14,6 +14,7 @@ export default function ItemModal({ item, modalActived, setModalActived, itemBox
   const itemImgsBoxWidth = Math.min(itemBoxWidth, 500) * 0.94;
   const itemImgsScrollViewRef = useRef();
   const [pressedImgIdx, setPressedImgIdx] = useState();
+  const [isImgPressed, setImgPressed] = useState(false);
   const [urlList, setUrlList] = useState();
 
   useEffect(() => {
@@ -47,8 +48,11 @@ export default function ItemModal({ item, modalActived, setModalActived, itemBox
     <>
       {modalActived && (
         <View style={styles.modalWrap}>
-          <Modal visible={pressedImgIdx ? true : false} transparent={true}>
-            <ImageViewer imageUrls={urlList} onCancel={() => setPressedImgIdx()} onClick={() => setPressedImgIdx()} index={pressedImgIdx} />
+          <Modal visible={isImgPressed} transparent={true}>
+            <ImageViewer imageUrls={urlList} onCancel={() => setImagePressed(false)} onClick={() => setPressedImgIdx()} index={pressedImgIdx} />
+            <TouchableOpacity style={{ position: 'absolute', top: 25, right: 25, zIndex: 100 }} onPress={() => setImgPressed(false)}>
+              <Ionicons name='ios-close' size={32} color='white' />
+            </TouchableOpacity>
           </Modal>
 
           <TouchableWithoutFeedback
@@ -74,7 +78,12 @@ export default function ItemModal({ item, modalActived, setModalActived, itemBox
                       {item.imgs.map((img, i) => {
                         return (
                           <View key={img.key} style={{ width: itemImgsBoxWidth, aspectRatio: 1 }} onStartShouldSetResponder={() => true}>
-                            <TouchableWithoutFeedback onPress={() => setPressedImgIdx(i)}>
+                            <TouchableWithoutFeedback
+                              onPress={() => {
+                                setPressedImgIdx(i);
+                                setImgPressed(true);
+                              }}
+                            >
                               <Image
                                 style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
                                 source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.key}` }}
@@ -128,11 +137,10 @@ export default function ItemModal({ item, modalActived, setModalActived, itemBox
                       onPress={() => {
                         Linking.openURL(`tel:${phoneNumber}`);
                       }}
+                      style={styles.modalCallButton}
                     >
-                      <View style={styles.modalCallButton}>
-                        <Ionicons name='ios-call' size={20} color={colors.textLight} />
-                        <Text style={{ color: colors.textLight, fontFamily: 'HSMedium', fontSize: 14 }}>전화 문의</Text>
-                      </View>
+                      <Ionicons name='ios-call' size={20} color={colors.textLight} />
+                      <Text style={{ color: colors.textLight, fontFamily: 'HSMedium', fontSize: 14 }}>전화 문의</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
