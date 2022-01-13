@@ -43,16 +43,16 @@ export class ItemsController {
     return this.itemsService.searchSaleItemsByName(name);
   }
 
-  @Get('/onDiscount')
-  getDiscountItems(): Promise<Item[]> {
-    return this.itemsService.getDiscountItems();
+  @Get('/onSale/onDiscount')
+  getSaleDiscountItems(): Promise<Item[]> {
+    return this.itemsService.getSaleDiscountItems();
   }
 
-  @Get('/category')
-  getItemsByCategory(
+  @Get('/onSale/category')
+  getSaleItemsByCategory(
     @Query('id', ParseIntPipe) categoryId: number,
   ): Promise<Item[]> {
-    return this.itemsService.getItemsByCategory(categoryId);
+    return this.itemsService.getSaleItemsByCategory(categoryId);
   }
 
   @Get('/:id')

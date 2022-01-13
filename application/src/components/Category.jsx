@@ -5,18 +5,26 @@ import colors from '../theme/colors';
 export default function Category(props) {
   return (
     <View style={styles.categoryView}>
-      <Text
-        numberOfLines={2}
-        style={{
-          letterSpacing: 1,
-          lineHeight: 18,
-          fontSize: 16,
-          fontFamily: 'HSMedium',
-          ...(props.category.id === props.selectedCategoryId && { color: colors.point1 }),
-        }}
+      <View
+        style={[
+          { padding: 6, borderRadius: 7, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+          props.category.id === props.selectedCategoryId && { backgroundColor: colors.point1 },
+        ]}
       >
-        {props.category.name}
-      </Text>
+        <Text
+          numberOfLines={4}
+          style={{
+            letterSpacing: 1,
+            lineHeight: 18,
+            fontSize: 16,
+            fontFamily: 'HSMedium',
+            textAlign: 'center',
+            ...(props.category.id === props.selectedCategoryId && { color: colors.textLight }),
+          }}
+        >
+          {props.category.name}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -24,9 +32,8 @@ export default function Category(props) {
 const styles = StyleSheet.create({
   categoryView: {
     width: '100%',
-    height: 60,
-    padding: 7,
-
+    padding: 3,
+    marginVertical: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },

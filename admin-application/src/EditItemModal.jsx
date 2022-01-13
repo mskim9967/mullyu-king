@@ -159,7 +159,8 @@ export function EditItemModal({ modalOn, setModalOn, itemId, categories }) {
                       maxWidthOrHeight: 1000,
                     })
                   );
-                  await axiosInstance.post(`/static/item/${item.id}`, formData);
+                  const imgRes = await axiosInstance.post(`/static/item/${itemId}`, formData);
+                  await axiosInstance.post(`/static/item/thumb/${imgRes.data.key}`, formData);
                   reloadTrigger(!reload);
                 }}
               ></input>

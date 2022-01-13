@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   Box: {
     position: 'relative',
     width: '100%',
-    height: 40,
+    height: Platform.OS === 'ios' ? 40 : 50,
     backgroundColor: colors.point1,
     alignItems: 'center',
     justifyContent: 'center',

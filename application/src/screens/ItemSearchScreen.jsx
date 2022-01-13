@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import Text from '../components/MyText';
 import Header from '../components/Header';
 import colors from '../theme/colors';
@@ -12,21 +12,22 @@ export default function ItemSearchScreen({ navigation }) {
   const [searchBarText, setSearchBarText] = useState('');
   const [items, setItems] = useState([]);
   const [item, setItem] = useState();
-
-  const [modalFlag, setModalFlag] = useState(false);
-  const pullModalStatus = (flag) => {
-    setModalFlag(flag);
-  };
+  const [isLoading, setLoading] = useState(false);
+  const [modalActived, setModalActived] = useState(false);
 
   useEffect(() => {
     setItems([]);
     let timer;
     if (searchBarText) {
+      setLoading(true);
       timer = setTimeout(() => {
         axiosInstance.get(`/items/onSale/search?name=${searchBarText}`).then((res) => {
           setItems(res.data);
+          setLoading(false);
         });
-      }, 2000);
+      }, 1400);
+    } else {
+      setLoading(false);
     }
     return () => {
       clearTimeout(timer);
@@ -43,6 +44,7 @@ export default function ItemSearchScreen({ navigation }) {
           <TextInput style={styles.searchBarText} onChangeText={setSearchBarText} value={searchBarText} placeholder='상품명을 입력하세요' />
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
+          {isLoading && <ActivityIndicator size='large' color={colors.point1} />}
           {items &&
             items.map((item) => {
               return (
@@ -50,7 +52,7 @@ export default function ItemSearchScreen({ navigation }) {
                   key={item.id}
                   onPress={() => {
                     setItem(item);
-                    setModalFlag(true);
+                    setModalActived(true);
                   }}
                 >
                   <Item item={item} />
@@ -61,7 +63,7 @@ export default function ItemSearchScreen({ navigation }) {
         </ScrollView>
       </View>
 
-      {modalFlag && <ItemModal func={pullModalStatus} item={item}></ItemModal>}
+      {modalActived && <ItemModal modalActived={modalActived} setModalActived={setModalActived} item={item}></ItemModal>}
     </View>
   );
 }
@@ -87,6 +89,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
     flexDirection: 'row',
+    marginBottom: 30,
   },
   searchBarText: {
     flex: 1,

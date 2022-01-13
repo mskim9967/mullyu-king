@@ -9,7 +9,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { StaticModule } from './static/static.module';
 import { AuthModule } from './auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path/posix';
+import { join } from 'path';
 
 @Module({
   imports: [

@@ -53,7 +53,6 @@ function App() {
             </div>
           </Route>
           <Route path='/'>
-            {' '}
             <>
               <div style={{ position: 'absolute', bottom: 0, width: '100vw', zIndex: 100 }}>
                 <BottomNavigation

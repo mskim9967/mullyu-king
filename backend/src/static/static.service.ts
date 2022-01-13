@@ -2,12 +2,13 @@ import { Req, Res, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
-import * as multerS3 from 'multer-s3';
+import * as multerS3 from 'multer-s3-transform';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ItemImgRepository } from './itemImg.repository';
 import { ItemRepository } from 'src/items/item.repository';
 import { Item } from 'src/items/item.entity';
 import { ItemImg } from './itemImg.entity';
+import * as sharp from 'sharp';
 
 const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const s3 = new AWS.S3();
@@ -33,7 +34,7 @@ export class StaticService {
     if (!item) return res.status(404).json({ status: 'not found' });
     else {
       this.multerUpload(req, res, async () => {
-        const itemImg: ItemImg = this.itemImgRepository.create({
+        let itemImg: ItemImg = this.itemImgRepository.create({
           key: req.files[0].key,
         });
         itemImg.item = item;
@@ -47,10 +48,21 @@ export class StaticService {
           item.primaryImg = getItemImg;
           await this.itemRepository.save(item);
         }
-
         return res.status(201).json(itemImg);
       });
     }
+  }
+
+  async uploadItemThumbImage(@Req() req, @Res() res, key: string) {
+    this.multerUploadThumb(req, res, async () => {
+      const itemImg = await this.itemImgRepository.findOne({
+        key,
+      });
+      itemImg.thumbKey = req.files[0].transforms[0].key;
+
+      await this.itemImgRepository.save(itemImg);
+      return res.status(201).json(itemImg);
+    });
   }
 
   multerUpload = multer({
@@ -61,6 +73,25 @@ export class StaticService {
       key: (req, file, cb) => {
         cb(null, `${Date.now().toString()}`);
       },
+    }),
+  }).array('image', 1);
+
+  multerUploadThumb = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: AWS_S3_BUCKET_NAME,
+      ACL: 'public-read',
+      shouldTransform: true,
+      transforms: [
+        {
+          key: (req, file, cb) => {
+            cb(null, `${Date.now().toString()}`);
+          },
+          transform: function (req, file, cb) {
+            cb(null, sharp().resize(70, 70));
+          },
+        },
+      ],
     }),
   }).array('image', 1);
 

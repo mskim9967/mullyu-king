@@ -23,6 +23,15 @@ export class StaticController {
     await this.staticService.uploadItemImage(req, res, itemId);
   }
 
+  @Post('/item/thumb/:key')
+  async uploadItemThumbImage(
+    @Req() req,
+    @Res() res,
+    @Param('key') key: string,
+  ) {
+    await this.staticService.uploadItemThumbImage(req, res, key);
+  }
+
   @Get('/:key')
   async getImageByKey(@Req() req, @Res() res, @Param('key') key: string) {
     await this.staticService.getImageByKey(req, res, key);

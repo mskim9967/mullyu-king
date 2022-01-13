@@ -20,11 +20,10 @@ export function EditCategoryModal({ modalOn, setModalOn, category }) {
         <Button
           onClick={async () => {
             if (!name) return;
-            setModalOn(false);
             await axiosInstance.patch(`/categories/${category.id}/rename`, {
               name,
             });
-
+            setModalOn(false);
             setName('');
           }}
           size='large'

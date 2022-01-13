@@ -1,4 +1,15 @@
-import { StyleSheet, View, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Animated, Linking } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Animated,
+  Linking,
+  Dimensions,
+  Pressable,
+} from 'react-native';
 import Image from 'react-native-image-progress';
 import Text from '../components/MyText';
 import colors from '../theme/colors';
@@ -11,13 +22,11 @@ const categoryBoxWidth = 60;
 const itemImgsBoxWidth = 270;
 const modalBorderRadius = 16;
 
-export default function ItemModal({ item, func }) {
-  const [modalActived, setModalActived] = useState(true);
+export default function ItemModal({ item, modalActived, setModalActived }) {
   const itemImgsScrollViewRef = useRef();
 
   useEffect(() => {
     if (modalActived) modalFadeIn();
-    func(modalActived);
   }, [modalActived]);
 
   const modalFadeAnim = useRef(new Animated.Value(0)).current;
@@ -41,13 +50,13 @@ export default function ItemModal({ item, func }) {
   return (
     <>
       {modalActived && (
-        <>
+        <View style={styles.modalWrap}>
           <TouchableWithoutFeedback
             onPress={() => {
               modalFadeOut();
             }}
           >
-            <Animated.View style={{ ...styles.modalBg, opacity: modalFadeAnim }}>
+            <Animated.View style={[styles.modalBg, { opacity: modalFadeAnim }]}>
               <TouchableWithoutFeedback>
                 <View style={styles.modalView}>
                   <View style={styles.modalHeader}>
@@ -77,16 +86,29 @@ export default function ItemModal({ item, func }) {
                       {item.imgs.map((img, i) => {
                         return (
                           <View key={img.key} style={{ height: '100%', aspectRatio: 1, marginHorizontal: 3 }} onStartShouldSetResponder={() => true}>
-                            <TouchableOpacity
-                              onPress={() => {
-                                itemImgsScrollViewRef.current?.scrollTo({ x: itemImgsBoxWidth * i, animated: true });
-                              }}
-                            >
-                              <Image
-                                style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-                                source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.key}` }}
-                              />
-                            </TouchableOpacity>
+                            {Platform.OS === 'web' ? (
+                              <TouchableWithoutFeedback
+                                onPress={() => {
+                                  itemImgsScrollViewRef.current?.scrollTo({ x: itemImgsBoxWidth * i, animated: true });
+                                }}
+                              >
+                                <Image
+                                  style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
+                                  source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.key}` }}
+                                />
+                              </TouchableWithoutFeedback>
+                            ) : (
+                              <TouchableOpacity
+                                onPress={() => {
+                                  itemImgsScrollViewRef.current?.scrollTo({ x: itemImgsBoxWidth * i, animated: true });
+                                }}
+                              >
+                                <Image
+                                  style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
+                                  source={{ uri: `${axiosInstance.defaults.baseURL}/static/${img.key}` }}
+                                />
+                              </TouchableOpacity>
+                            )}
                           </View>
                         );
                       })}
@@ -115,17 +137,24 @@ export default function ItemModal({ item, func }) {
               </TouchableWithoutFeedback>
             </Animated.View>
           </TouchableWithoutFeedback>
-        </>
+        </View>
       )}
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  modalBg: {
+  modalWrap: {
     position: 'absolute',
+    left: 0,
+    top: 0,
     zIndex: 999,
     elevation: 999,
+    width: '100%',
+    height: '100%',
+  },
+
+  modalBg: {
     width: '100%',
     height: '100%',
     alignItems: 'center',
@@ -159,7 +188,7 @@ const styles = StyleSheet.create({
   modalDetails: {
     width: '100%',
     padding: 20,
-    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalFooter: {
     width: '100%',

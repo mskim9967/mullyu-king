@@ -40,15 +40,15 @@ export class ItemsService {
     return item;
   }
 
-  async getItemsByCategory(categoryId: number): Promise<Item[]> {
+  async getSaleItemsByCategory(categoryId: number): Promise<Item[]> {
     const category: Category = await this.categoryRepository.findOne({
       id: categoryId,
     });
     if (!category) throw new BadRequestException(`category is not valid`);
 
     return await this.itemRepository.find({
-      where: { category: categoryId },
-      relations: ['category', 'imgs'],
+      where: { category: categoryId, onSale: true },
+      relations: ['category', 'imgs', 'primaryImg'],
       order: {
         orderNum: 'ASC',
       },
@@ -75,10 +75,10 @@ export class ItemsService {
     });
   }
 
-  async getDiscountItems(): Promise<Item[]> {
+  async getSaleDiscountItems(): Promise<Item[]> {
     return await this.itemRepository.find({
       where: { onSale: true, onDiscount: true },
-      relations: ['category', 'imgs'],
+      relations: ['category', 'imgs', 'primaryImg'],
       order: {
         orderNum: 'ASC',
       },

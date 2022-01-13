@@ -9,7 +9,7 @@ export default function Item(props) {
       <View style={styles.imageView}>
         <Image
           style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-          source={{ uri: `${axiosInstance.defaults.baseURL}/static/${props.item.primaryImg?.key}` }}
+          source={{ uri: `${axiosInstance.defaults.baseURL}/static/${props.item.primaryImg?.thumbKey}` }}
         />
       </View>
       <View style={styles.textView}>

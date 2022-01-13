@@ -17,10 +17,10 @@ export function CreateCategoryModal({ modalOn, setModalOn }) {
           onClick={async () => {
             if (!name) return;
             setModalOn(false);
+            setName('');
             await axiosInstance.post('/categories/item', {
               name,
             });
-            setName('');
           }}
           size='large'
           variant='contained'

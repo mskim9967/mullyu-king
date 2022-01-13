@@ -71,7 +71,8 @@ export function CreateItemModal({ modalOn, setModalOn, categories }) {
                 categoryId,
               })
             ).data.id;
-            await axiosInstance.post(`/static/item/${itemId}`, formData);
+            const imgRes = await axiosInstance.post(`/static/item/${itemId}`, formData);
+            await axiosInstance.post(`/static/item/thumb/${imgRes.data.key}`, formData);
 
             setModalOn(false);
             setName('');
