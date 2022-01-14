@@ -53,15 +53,19 @@ function App() {
             </div>
           </Route>
           <Route path='/'>
-            <>
-              <div style={{ position: 'absolute', bottom: 0, width: '100vw', zIndex: 100 }}>
+            <div style={{ display: 'grid', width: '100vw', height: '100vh', gridTemplateRows: '1fr 50px' }}>
+              <div style={styles.content}>
+                {navi === 'categories' && <CategoryScreen />}
+                {navi === 'items' && <ItemScreen />}
+              </div>
+              <div style={{}}>
                 <BottomNavigation
                   showLabels
                   value={navi}
                   onChange={(event, newValue) => {
                     setNavi(newValue);
                   }}
-                  sx={{ backgroundColor: '#e0e0e0' }}
+                  sx={{ backgroundColor: '#e0e0e0', height: '100%' }}
                 >
                   <BottomNavigationAction label='카테고리' value='categories' />
                   <BottomNavigationAction label='상품' value='items' />
@@ -71,7 +75,6 @@ function App() {
                       reloadTrigger(!reload);
                       window.location.reload();
                     }}
-                    sx={{}}
                     size='large'
                     variant='contained'
                   >
@@ -79,13 +82,7 @@ function App() {
                   </Button>
                 </BottomNavigation>
               </div>
-              <div style={styles.content}>
-                <div style={{ padding: 20, paddingBottom: 100 }}>
-                  {navi === 'categories' && <CategoryScreen />}
-                  {navi === 'items' && <ItemScreen />}
-                </div>
-              </div>
-            </>
+            </div>
           </Route>
         </Switch>
       </div>
@@ -94,7 +91,7 @@ function App() {
 }
 
 const styles = {
-  content: { height: '100vh', overflow: 'auto', background: '#ffffff' },
+  content: { overflow: 'auto', background: '#ffffff', padding: 20 },
 };
 
 export default App;

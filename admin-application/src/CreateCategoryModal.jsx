@@ -2,8 +2,8 @@ import Button from '@mui/material/Button';
 import { useState, useEffect, useRef } from 'react';
 import axiosInstance from './axios-instance';
 import SaveIcon from '@mui/icons-material/Save';
-import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
+import { Modal, TextField, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 export function CreateCategoryModal({ modalOn, setModalOn }) {
   const [name, setName] = useState('');
@@ -11,6 +11,9 @@ export function CreateCategoryModal({ modalOn, setModalOn }) {
   return (
     <Modal open={modalOn} onClose={() => setModalOn(false)}>
       <div style={styles.modal}>
+        <IconButton sx={{ position: 'absolute', right: 6, top: 6 }} onClick={() => setModalOn(false)}>
+          <CloseIcon fontSize='large' />
+        </IconButton>
         <div style={styles.textHeader}>카테고리 추가</div>
         <TextField onChange label='카테고리 이름' variant='filled' size='small' fullWidth value={name} onChange={(e) => setName(e.target.value)} />
         <Button

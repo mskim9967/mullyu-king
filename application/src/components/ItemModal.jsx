@@ -50,7 +50,10 @@ export default function ItemModal({ item, modalActived, setModalActived, itemBox
         <View style={styles.modalWrap}>
           <Modal visible={isImgPressed} transparent={true}>
             <ImageViewer imageUrls={urlList} onCancel={() => setImagePressed(false)} onClick={() => setPressedImgIdx()} index={pressedImgIdx} />
-            <TouchableOpacity style={{ position: 'absolute', top: 25, right: 25, zIndex: 100 }} onPress={() => setImgPressed(false)}>
+            <TouchableOpacity
+              style={{ position: 'absolute', top: Platform.OS === 'ios' ? 40 : 25, right: 25, zIndex: 100 }}
+              onPress={() => setImgPressed(false)}
+            >
               <Ionicons name='ios-close' size={32} color='white' />
             </TouchableOpacity>
           </Modal>

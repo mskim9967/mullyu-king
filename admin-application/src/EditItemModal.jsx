@@ -5,7 +5,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
-import ImageIcon from '@mui/icons-material/Image';
+import CloseIcon from '@mui/icons-material/Close';
 import { EditImageModal } from './EditImageModal';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import imageCompression from 'browser-image-compression';
@@ -55,6 +55,9 @@ export function EditItemModal({ modalOn, setModalOn, itemId, categories }) {
     <>
       <Modal open={modalOn && item} onClose={() => setModalOn(false)}>
         <div style={styles.modal}>
+          <IconButton sx={{ position: 'absolute', right: 6, top: 6 }} onClick={() => setModalOn(false)}>
+            <CloseIcon fontSize='large' />
+          </IconButton>
           <div style={styles.textHeader}>상품 정보 수정</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20, justifyContent: 'center', width: '95%' }}>
             <TextField onChange label='상품 이름' variant='filled' size='small' fullWidth value={name} onChange={(e) => setName(e.target.value)} />

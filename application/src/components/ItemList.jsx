@@ -9,11 +9,11 @@ const categoryBoxWidth = 60;
 const itemBoxWidth = Dimensions.get('window').width - categoryBoxWidth;
 
 export default function ItemList({ selectedCategoryId, category, modalActived, setModalActived, setSelectedItem }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    if (category.id === selectedCategoryId) setReload(true);
+    if (category.id === selectedCategoryId && !items) setReload(true);
   }, [selectedCategoryId]);
 
   useEffect(async () => {
@@ -34,19 +34,20 @@ export default function ItemList({ selectedCategoryId, category, modalActived, s
           showsVerticalScrollIndicator={false}
           refreshControl={<RefreshControl refreshing={reload} onRefresh={() => setReload(true)} />}
         >
-          {items.map((item) => {
-            return (
-              <TouchableOpacity
-                key={item.id}
-                onPress={() => {
-                  setSelectedItem(item);
-                  setModalActived(true);
-                }}
-              >
-                <Item item={item} />
-              </TouchableOpacity>
-            );
-          })}
+          {items &&
+            items.map((item) => {
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  onPress={() => {
+                    setSelectedItem(item);
+                    setModalActived(true);
+                  }}
+                >
+                  <Item item={item} />
+                </TouchableOpacity>
+              );
+            })}
           <View style={{ height: 100 }} />
         </ScrollView>
       </View>
