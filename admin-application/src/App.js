@@ -25,7 +25,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='App' style={{ width: '100vw', height: window.innerHeight }}>
+      <div className='App' style={{ width: '100vw', height: window.innerHeight, overflow: 'hidden' }}>
         {isLogin ? <Redirect to='/' /> : <Redirect to='/login' />}
         <Switch>
           <Route path='/login'>
@@ -53,35 +53,33 @@ function App() {
             </div>
           </Route>
           <Route path='/'>
-            <div style={{ display: 'grid', width: '100vw', height: window.innerHeight, gridTemplateRows: '1fr 50px' }}>
+            <div style={{ display: 'grid', width: '100vw', height: '100%', gridTemplateRows: '1fr 50px' }}>
               <div style={styles.content}>
                 {navi === 'categories' && <CategoryScreen />}
                 {navi === 'items' && <ItemScreen />}
               </div>
-              <div style={{}}>
-                <BottomNavigation
-                  showLabels
-                  value={navi}
-                  onChange={(event, newValue) => {
-                    setNavi(newValue);
+              <BottomNavigation
+                showLabels
+                value={navi}
+                onChange={(event, newValue) => {
+                  setNavi(newValue);
+                }}
+                sx={{ backgroundColor: '#e0e0e0', height: '100%' }}
+              >
+                <BottomNavigationAction label='카테고리' value='categories' />
+                <BottomNavigationAction label='상품' value='items' />
+                <Button
+                  onClick={() => {
+                    localStorage.removeItem('Authorization');
+                    reloadTrigger(!reload);
+                    window.location.reload();
                   }}
-                  sx={{ backgroundColor: '#e0e0e0', height: '100%' }}
+                  size='large'
+                  variant='contained'
                 >
-                  <BottomNavigationAction label='카테고리' value='categories' />
-                  <BottomNavigationAction label='상품' value='items' />
-                  <Button
-                    onClick={() => {
-                      localStorage.removeItem('Authorization');
-                      reloadTrigger(!reload);
-                      window.location.reload();
-                    }}
-                    size='large'
-                    variant='contained'
-                  >
-                    로그아웃
-                  </Button>
-                </BottomNavigation>
-              </div>
+                  로그아웃
+                </Button>
+              </BottomNavigation>
             </div>
           </Route>
         </Switch>

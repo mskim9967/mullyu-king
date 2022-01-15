@@ -34,7 +34,7 @@ export function CategoryScreen() {
         {categories.map((category, i) => {
           return (
             <div style={styles.card}>
-              <div style={{ flex: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ flex: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ fontSize: 25, fontWeight: 600, marginBottom: 3 }}>{category.name}</div>
                 <div style={{ fontSize: 13 }}>상품개수: {category.items.length}</div>
               </div>
@@ -106,6 +106,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 100,
   },
   card: {
     height: 100,

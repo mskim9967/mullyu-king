@@ -181,6 +181,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 100,
   },
   card: {
     height: 80,
