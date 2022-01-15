@@ -7,7 +7,7 @@ export default function Category({ categoryBoxWidth, category, selectedCategoryI
     <View style={[styles.categoryView, { width: categoryBoxWidth }]}>
       <View
         style={[
-          { padding: 6, borderRadius: 7, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+          { width: '100%', paddingVertical: 6, borderRadius: 7, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
           category.id === selectedCategoryId && { backgroundColor: colors.point1 },
         ]}
       >
@@ -32,8 +32,7 @@ export default function Category({ categoryBoxWidth, category, selectedCategoryI
 const styles = StyleSheet.create({
   categoryView: {
     width: '100%',
-    padding: 3,
-    marginVertical: 5,
+    padding: 7,
     alignItems: 'center',
     justifyContent: 'center',
   },

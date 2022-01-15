@@ -73,6 +73,9 @@ export default function ItemModal({ item, modalActived, setModalActived, itemBox
                 <View style={styles.modalView}>
                   <View style={styles.modalHeader}>
                     <Text style={{ color: colors.textLight, fontFamily: 'HSBold', fontSize: 17 }}>{item.name}</Text>
+                    <TouchableOpacity style={{ position: 'absolute', top: 10, right: 12 }} onPress={() => modalFadeOut()}>
+                      <Ionicons name='ios-close' size={27} color='white' />
+                    </TouchableOpacity>
                   </View>
                   <View style={styles.modalDetails}>
                     <Text style={{ marginBottom: 10 }}>{item.description}</Text>

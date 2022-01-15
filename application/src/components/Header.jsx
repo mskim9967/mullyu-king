@@ -22,7 +22,7 @@ export default function Header({ navigation }) {
           source={imgSrc}
           style={{
             resizeMode: 'contain',
-            height: Platform.OS === 'ios' ? 43 : 53,
+            height: Platform.OS === 'ios' ? 43 : 50,
             width: 100,
           }}
         />
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   Box: {
     position: 'relative',
     width: '100%',
-    height: Platform.OS === 'ios' ? 45 : 55,
+    height: Platform.OS === 'ios' ? 45 : 50,
     backgroundColor: colors.point1,
     alignItems: 'center',
     justifyContent: 'center',
