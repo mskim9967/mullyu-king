@@ -28,7 +28,6 @@ export class ItemsController {
 
   @Post()
   @UseGuards(AuthGuard())
-  @UseGuards(AuthGuard())
   createItem(@Body() createItemDto: CreateItemDto): Promise<Item> {
     return this.itemsService.createItem(createItemDto);
   }

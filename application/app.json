@@ -4,9 +4,9 @@
     "slug": "application",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/test.png",
+    "icon": "./assets/logo_m.png",
     "splash": {
-      "image": "./assets/test.png",
+      "image": "./assets/logo_m.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,12 +19,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/test.png",
+        "foregroundImage": "./assets/logo_m.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/test.png"
+      "favicon": "./assets/logo_m.png"
     }
   }
 }

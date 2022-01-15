@@ -5,7 +5,6 @@ import colors from '../theme/colors';
 import axiosInstance from '../axios-instance';
 import { useState, useEffect, useRef } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { phoneNumber } from '../assets/const-info';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
 const modalBorderRadius = 16;
@@ -16,6 +15,12 @@ export default function ItemModal({ item, modalActived, setModalActived, itemBox
   const [pressedImgIdx, setPressedImgIdx] = useState();
   const [isImgPressed, setImgPressed] = useState(false);
   const [urlList, setUrlList] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+
+  useEffect(async () => {
+    const res = await axiosInstance.get('/storeInfo/phoneNumber');
+    setPhoneNumber(res.data.phoneNumber);
+  }, []);
 
   useEffect(() => {
     if (modalActived) modalFadeIn();

@@ -1,11 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
-import { useFonts } from 'expo-font';
-import { useState, useEffect } from 'react';
+import { Pressable, StyleSheet, TouchableOpacity, View, Platform, Image, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Text from '../components/MyText';
 import colors from '../theme/colors';
 import { useRoute } from '@react-navigation/native';
+import imgSrc from '../assets/images/logo_outline_s.png';
 
 export default function Header({ navigation }) {
   const route = useRoute();
@@ -20,7 +17,16 @@ export default function Header({ navigation }) {
           <Ionicons name='ios-search' size={20} color={colors.textLight} />
         </TouchableOpacity>
       )}
-      <Text style={{ color: colors.textLight }}> 물류킹</Text>
+      <View>
+        <Image
+          source={imgSrc}
+          style={{
+            resizeMode: 'contain',
+            height: Platform.OS === 'ios' ? 43 : 53,
+            width: 100,
+          }}
+        />
+      </View>
       <TouchableOpacity>
         <Ionicons name='ios-earth' size={20} color={colors.textLight} />
       </TouchableOpacity>
@@ -32,7 +38,7 @@ const styles = StyleSheet.create({
   Box: {
     position: 'relative',
     width: '100%',
-    height: Platform.OS === 'ios' ? 40 : 50,
+    height: Platform.OS === 'ios' ? 45 : 55,
     backgroundColor: colors.point1,
     alignItems: 'center',
     justifyContent: 'center',

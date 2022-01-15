@@ -1,19 +1,27 @@
 import { Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../theme/colors';
-import { phoneNumber } from '../assets/const-info';
+import axiosInstance from '../axios-instance';
 
 export default function CallPopUp() {
+  const [phoneNumber, setPhoneNumber] = useState();
+
+  useEffect(async () => {
+    const res = await axiosInstance.get('/storeInfo/phoneNumber');
+    setPhoneNumber(res.data.phoneNumber);
+  }, []);
+
   return (
-    <View style={styles.callPopUp}>
-      <TouchableOpacity
-        onPress={() => {
-          Linking.openURL(`tel:${phoneNumber}`);
-        }}
-      >
+    <TouchableOpacity
+      onPress={async () => {
+        Linking.openURL(`tel:${phoneNumber}`);
+      }}
+    >
+      <View style={styles.callPopUp}>
         <Ionicons name='ios-call' size={30} color={colors.textLight} />
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 }
 

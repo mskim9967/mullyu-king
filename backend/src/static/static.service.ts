@@ -1,4 +1,10 @@
-import { Req, Res, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Req,
+  Res,
+  Injectable,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
@@ -9,6 +15,7 @@ import { ItemRepository } from 'src/items/item.repository';
 import { Item } from 'src/items/item.entity';
 import { ItemImg } from './itemImg.entity';
 import * as sharp from 'sharp';
+import { AuthGuard } from '@nestjs/passport';
 
 const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const s3 = new AWS.S3();
@@ -26,6 +33,7 @@ export class StaticService {
     private readonly config: ConfigService,
   ) {}
 
+  @UseGuards(AuthGuard())
   async uploadItemImage(@Req() req, @Res() res, itemId: number) {
     const item: Item = await this.itemRepository.findOne({
       where: { id: itemId },
@@ -53,6 +61,7 @@ export class StaticService {
     }
   }
 
+  @UseGuards(AuthGuard())
   async uploadItemThumbImage(@Req() req, @Res() res, key: string) {
     this.multerUploadThumb(req, res, async () => {
       const itemImg = await this.itemImgRepository.findOne({
@@ -110,6 +119,7 @@ export class StaticService {
     );
   }
 
+  @UseGuards(AuthGuard())
   async deleteImageByKey(key: string) {
     const result = await this.itemImgRepository.delete({ key });
     if (!result.affected)
