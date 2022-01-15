@@ -25,7 +25,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='App' style={{ width: '100vw', height: '100vh' }}>
+      <div className='App' style={{ width: '100vw', height: window.innerHeight }}>
         {isLogin ? <Redirect to='/' /> : <Redirect to='/login' />}
         <Switch>
           <Route path='/login'>
