@@ -6,7 +6,7 @@ import './index.css';
 
 function App() {
   return (
-    <div style={{ width: '100vw', height: '100vh', minHeight: '-webkit-fill-available', overflow: 'hidden' }}>
+    <div style={{ width: '100vw', height: window.innerHeight, overflow: 'hidden' }}>
       <div style={{ display: 'grid', height: '100%', gridTemplateRows: '1fr 0' }}>
         <div
           style={{
