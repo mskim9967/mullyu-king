@@ -14,3 +14,71 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.truck {
+  opacity: 0;
+  animation: 1s 0s 1 slideInFromRight;
+  animation-fill-mode: forwards;
+}
+
+.logo {
+  animation: 1.5s 0s 1 fadein;
+  animation-fill-mode: forwards;
+}
+
+.text {
+  opacity: 0;
+  animation: 1.5s 0.3s 1 fadein;
+  animation-fill-mode: forwards;
+}
+
+.web {
+  opacity: 0;
+  animation: 0.5s 1.2s 1 fadeinup;
+  animation-fill-mode: forwards;
+}
+.android {
+  opacity: 0;
+  animation: 0.5s 1.4s 1 fadeinup;
+  animation-fill-mode: forwards;
+}
+.ios {
+  opacity: 0;
+  animation: 0.5s 1.6s 1 fadeinup;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeinup {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

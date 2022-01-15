@@ -2,6 +2,7 @@ import logoSrc from './logo_m.png';
 import deliverySrc from './delivery.gif';
 import { MdTravelExplore } from 'react-icons/md';
 import { IoLogoGooglePlaystore, IoLogoAppleAppstore } from 'react-icons/io5';
+import './index.css';
 
 function App() {
   return (
@@ -16,17 +17,22 @@ function App() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: -50,
+            marginTop: -60,
           }}
         >
-          <img style={{ position: 'absolute', bottom: -70, width: '100%', marginBottom: 20, zIndex: -100, opacity: 0.5 }} src={deliverySrc} />
+          <img
+            className='truck'
+            style={{ position: 'absolute', bottom: -80, width: '100%', marginBottom: 20, zIndex: -100, opacity: 0.5 }}
+            src={deliverySrc}
+          />
 
-          <img style={{ width: '63%', maxWidth: 440, marginBottom: 20 }} src={logoSrc} />
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24 }}>
+          <img className='logo' style={{ width: '63%', maxWidth: 440, marginBottom: 20 }} src={logoSrc} />
+          <div className='text' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24 }}>
             <div style={{ fontWeight: '500', fontSize: 20, color: '#555555' }}>대한민국 No.1</div>
             <div style={{ fontWeight: '700', fontSize: 40, color: '#222222', marginTop: -10 }}>물류 도소매업체</div>
           </div>
           <div
+            className='web'
             style={{
               width: 260,
               height: 58,
@@ -47,6 +53,7 @@ function App() {
           </div>
 
           <div
+            className='android'
             style={{
               marginTop: 15,
               width: 260,
@@ -73,6 +80,7 @@ function App() {
           </div>
 
           <div
+            className='ios'
             style={{
               marginTop: 15,
               width: 260,
