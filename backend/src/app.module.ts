@@ -15,7 +15,7 @@ import { StoreInfoModule } from './store-info/store-info.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'build'),
+      rootPath: join(__dirname, '..', '..', 'admin-application/build'),
       exclude: ['/api*'],
     }),
     ConfigModule.forRoot({
