@@ -53,7 +53,7 @@ function App() {
             </div>
           </Route>
           <Route path='/'>
-            <div style={{ display: 'grid', width: '100vw', height: '100vh', gridTemplateRows: '1fr 50px' }}>
+            <div style={{ display: 'grid', width: '100vw', height: window.innerHeight, gridTemplateRows: '1fr 50px' }}>
               <div style={styles.content}>
                 {navi === 'categories' && <CategoryScreen />}
                 {navi === 'items' && <ItemScreen />}
