@@ -6,7 +6,12 @@ import './index.css';
 
 function App() {
   return (
-    <div style={{ width: '100vw', height: window.innerHeight, overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100vw', height: window.innerHeight, overflow: 'hidden' }}>
+      <img
+        className='truck'
+        style={{ position: 'absolute', bottom: -24, width: '100%', marginBottom: 20, zIndex: -100, opacity: 0.5 }}
+        src={deliverySrc}
+      />
       <div style={{ display: 'grid', height: '100%', gridTemplateRows: '1fr 0' }}>
         <div
           style={{
@@ -16,16 +21,9 @@ function App() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: -60,
+            marginTop: 30,
           }}
         >
-          <img
-            className='truck'
-            style={{ position: 'absolute', bottom: -80, width: '100%', marginBottom: 20, zIndex: -100, opacity: 0.5 }}
-            src={deliverySrc}
-          />
-
           <img className='logo' style={{ width: '63%', maxWidth: 440, marginBottom: 20 }} src={logoSrc} />
           <div className='text' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24 }}>
             <div style={{ fontWeight: '500', fontSize: 20, color: '#555555' }}>대한민국 No.1</div>

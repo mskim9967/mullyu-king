@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, TouchableOpacity, View, Platform, Image, Text } from 'react-native';
+import { Pressable, StyleSheet, TouchableOpacity, View, Platform, Image, Text, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../theme/colors';
 import { useRoute } from '@react-navigation/native';
@@ -10,11 +10,11 @@ export default function Header({ navigation }) {
     <View style={styles.Box}>
       {route.name === 'ItemSearch' ? (
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name='ios-arrow-back-outline' size={20} color={colors.textLight} />
+          <Ionicons name='ios-arrow-back-outline' size={25} color={colors.textLight} />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={() => navigation.navigate('ItemSearch')}>
-          <Ionicons name='ios-search' size={20} color={colors.textLight} />
+          <Ionicons name='ios-search' size={24} color={colors.textLight} />
         </TouchableOpacity>
       )}
       <View>
@@ -22,13 +22,13 @@ export default function Header({ navigation }) {
           source={imgSrc}
           style={{
             resizeMode: 'contain',
-            height: Platform.OS === 'ios' ? 43 : 50,
+            height: Platform.OS === 'ios' ? 40 : 45,
             width: 100,
           }}
         />
       </View>
-      <TouchableOpacity>
-        <Ionicons name='ios-earth' size={20} color={colors.textLight} />
+      <TouchableOpacity onPress={() => Linking.openURL('http://3.35.123.82/intro/')}>
+        <Ionicons name='ios-earth' size={24} color={colors.textLight} />
       </TouchableOpacity>
     </View>
   );
