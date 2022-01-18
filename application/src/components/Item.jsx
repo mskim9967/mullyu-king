@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 14,
+    borderRadius: 4,
+    overflow: 'hidden',
   },
 
   textView: {

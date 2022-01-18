@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Dimensions } from 'react-native';
 import Text from '../components/MyText';
 import Header from '../components/Header';
 import colors from '../theme/colors';
@@ -7,6 +7,9 @@ import { useState, useEffect, useRef } from 'react';
 import Item from '../components/Item';
 import { Ionicons } from '@expo/vector-icons';
 import ItemModal from '../components/ItemModal';
+
+const categoryBoxWidth = 60;
+const itemBoxWidth = Dimensions.get('window').width - categoryBoxWidth;
 
 export default function ItemSearchScreen({ navigation }) {
   const [searchBarText, setSearchBarText] = useState('');
@@ -63,7 +66,7 @@ export default function ItemSearchScreen({ navigation }) {
         </ScrollView>
       </View>
 
-      {modalActived && <ItemModal modalActived={modalActived} setModalActived={setModalActived} item={item}></ItemModal>}
+      {modalActived && <ItemModal modalActived={modalActived} setModalActived={setModalActived} item={item} itemBoxWidth={itemBoxWidth}></ItemModal>}
     </View>
   );
 }

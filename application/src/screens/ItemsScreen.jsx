@@ -7,6 +7,8 @@ import { useState, useEffect, useRef } from 'react';
 import Category from '../components/Category';
 import ItemModal from '../components/ItemModal';
 import ItemList from '../components/ItemList';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+const Tab = createMaterialTopTabNavigator();
 
 const categoryBoxWidth = 60;
 const itemBoxWidth = Dimensions.get('window').width - categoryBoxWidth;
@@ -42,7 +44,7 @@ export default function ItemsScreen({ navigation }) {
 
         <Header navigation={navigation} style={styles.headerWrapper} />
         <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={styles.categoriesView}>
+          {/* <View style={styles.categoriesView}>
             <ScrollView showsVerticalScrollIndicator={false}>
               {categories.map((category, i) => {
                 return (
@@ -57,8 +59,8 @@ export default function ItemsScreen({ navigation }) {
                 );
               })}
             </ScrollView>
-          </View>
-          <ScrollView
+          </View> */}
+          {/* <ScrollView
             pagingEnabled
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -81,7 +83,41 @@ export default function ItemsScreen({ navigation }) {
                 />
               );
             })}
-          </ScrollView>
+          </ScrollView> */}
+
+          {Boolean(categories?.length) && (
+            <Tab.Navigator
+              screenOptions={{
+                tabBarScrollEnabled: true,
+                lazy: true,
+                lazyPreloadDistance: 2,
+                tabBarItemStyle: { width: 'auto' },
+                tabBarIndicatorStyle: { backgroundColor: colors.point1 },
+                tabBarStyle: {
+                  elevation: 0,
+                  shadowOpacity: 0,
+                },
+              }}
+            >
+              {categories.map((category, i) => {
+                return (
+                  <Tab.Screen
+                    name={category.name}
+                    key={category.id}
+                    children={() => (
+                      <ItemList
+                        key={category.id}
+                        modalActived={modalActived}
+                        setModalActived={setModalActived}
+                        category={categories[i]}
+                        setSelectedItem={setSelectedItem}
+                      />
+                    )}
+                  />
+                );
+              })}
+            </Tab.Navigator>
+          )}
         </View>
       </View>
     </>

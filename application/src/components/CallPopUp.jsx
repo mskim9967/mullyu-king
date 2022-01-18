@@ -14,22 +14,17 @@ export default function CallPopUp() {
 
   return (
     <TouchableOpacity
+      style={styles.callPopUp}
       onPress={async () => {
         Linking.openURL(`tel:${phoneNumber}`);
       }}
     >
-      <View style={styles.callPopUp}>
-        <Ionicons name='ios-call' size={30} color={colors.textLight} />
-      </View>
+      <Ionicons name='ios-call' size={30} color={colors.textLight} />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.point1,
-  },
   callPopUp: {
     position: 'absolute',
     bottom: 24,

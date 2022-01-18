@@ -24,8 +24,8 @@ export default function App() {
       <SafeAreaView edges={['top']} style={styles.container}>
         <NavigationContainer>
           <MainNavi />
+          <CallPopUp />
         </NavigationContainer>
-        <CallPopUp />
       </SafeAreaView>
     </SafeAreaProvider>
   );

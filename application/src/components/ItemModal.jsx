@@ -78,7 +78,7 @@ export default function ItemModal({ item, modalActived, setModalActived, itemBox
                     </TouchableOpacity>
                   </View>
                   <View style={styles.modalDetails}>
-                    <Text style={{ marginBottom: 10 }}>{item.description}</Text>
+                    {Boolean(item.description) && <Text style={{ marginBottom: 10 }}>{item.description}</Text>}
                     <ScrollView
                       pagingEnabled
                       horizontal
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 3,
     elevation: 5,
+    ...(Platform.OS === 'ios' && { marginBottom: 80 }),
   },
 
   modalHeader: {

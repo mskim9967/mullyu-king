@@ -1,13 +1,12 @@
 {
   "expo": {
-    "name": "application",
-    "slug": "application",
+    "name": "물류킹",
+    "slug": "mlking",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo_m.png",
     "splash": {
       "image": "./assets/logo_m.png",
-      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -21,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo_m.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.mskim9967.mlking"
     },
     "web": {
       "favicon": "./assets/logo_m.png"

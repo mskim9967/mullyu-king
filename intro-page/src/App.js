@@ -21,13 +21,14 @@ function App() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            marginTop: 30,
+            justifyContent: 'center',
+            marginTop: -40,
           }}
         >
           <img className='logo' style={{ width: '63%', maxWidth: 440, marginBottom: 20 }} src={logoSrc} />
           <div className='text' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24 }}>
-            <div style={{ fontWeight: '500', fontSize: 20, color: '#555555' }}>대한민국 No.1</div>
-            <div style={{ fontWeight: '700', fontSize: 40, color: '#222222', marginTop: -10 }}>물류 도소매업체</div>
+            <div style={{ fontWeight: '500', fontSize: 20, color: '#555555', marginTop: -10 }}>대한민국 No.1</div>
+            <div style={{ fontWeight: '700', fontSize: 40, color: '#222222', marginBottom: 30 }}></div>
           </div>
           <div
             className='web'

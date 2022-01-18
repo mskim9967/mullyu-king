@@ -8,13 +8,9 @@ import Item from '../components/Item';
 const categoryBoxWidth = 60;
 const itemBoxWidth = Dimensions.get('window').width - categoryBoxWidth;
 
-export default function ItemList({ selectedCategoryId, category, modalActived, setModalActived, setSelectedItem }) {
+export default function ItemList({ category, modalActived, setModalActived, setSelectedItem }) {
   const [items, setItems] = useState(null);
-  const [reload, setReload] = useState(false);
-
-  useEffect(() => {
-    if (category.id === selectedCategoryId && !items) setReload(true);
-  }, [selectedCategoryId]);
+  const [reload, setReload] = useState(true);
 
   useEffect(async () => {
     if (!reload) return;
@@ -48,7 +44,7 @@ export default function ItemList({ selectedCategoryId, category, modalActived, s
                 </TouchableOpacity>
               );
             })}
-          <View style={{ height: 100 }} />
+          <View style={{ height: 300 }} />
         </ScrollView>
       </View>
     </>
@@ -80,8 +76,8 @@ const styles = StyleSheet.create({
   },
 
   itemsView: {
-    width: itemBoxWidth,
-    height: '100%',
+    flex: 1,
     padding: 10,
+    backgroundColor: colors.bgLight,
   },
 });
