@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, ScrollView, Dimensions, RefreshControl } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ScrollView, Dimensions, RefreshControl, ActivityIndicator } from 'react-native';
 import Text from '../components/MyText';
 import colors from '../theme/colors';
 import axiosInstance from '../axios-instance';
@@ -33,7 +33,7 @@ export default function ItemList({ category, modalActived, setModalActived, setS
     <>
       <View key={category.id} style={styles.itemsView}>
         <Text style={{ fontSize: 25, fontFamily: 'HSBold', margin: 7, marginBottom: 12 }}>{category.name}</Text>
-
+        {!loadOnce && <ActivityIndicator size='large' color={colors.point1} style={{ marginTop: 20 }} />}
         <ScrollView
           key={category.id}
           showsVerticalScrollIndicator={false}
