@@ -4,17 +4,26 @@ import colors from '../theme/colors';
 import axiosInstance from '../axios-instance';
 import { useState, useEffect, useRef } from 'react';
 import Item from '../components/Item';
+import { useNavigationState } from '@react-navigation/native';
 
 const categoryBoxWidth = 60;
 const itemBoxWidth = Dimensions.get('window').width - categoryBoxWidth;
 
 export default function ItemList({ category, modalActived, setModalActived, setSelectedItem }) {
   const [items, setItems] = useState(null);
-  const [reload, setReload] = useState(true);
+  const [reload, setReload] = useState(false);
+  const [loadOnce, setLoadOnce] = useState(false);
+  const state = useNavigationState((state) => state);
+
+  useEffect(async () => {
+    if (!loadOnce && state.routeNames[state.index] == category.name) {
+      setReload(true);
+      setLoadOnce(true);
+    }
+  }, [state]);
 
   useEffect(async () => {
     if (!reload) return;
-
     const itemsRes = await axiosInstance.get(category.id === -1 ? '/items/onSale/onDiscount' : `items/onsale/category?id=${category.id}`);
     setItems(itemsRes.data);
     setReload(false);

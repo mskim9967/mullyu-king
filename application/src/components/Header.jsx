@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import colors from '../theme/colors';
 import { useRoute } from '@react-navigation/native';
 import imgSrc from '../assets/images/logo_outline_s.png';
+import { INTRO_URL, zz } from '@env';
 
 export default function Header({ navigation }) {
   const route = useRoute();
@@ -27,7 +28,7 @@ export default function Header({ navigation }) {
           }}
         />
       </View>
-      <TouchableOpacity onPress={() => Linking.openURL('http://3.35.123.82/intro/')}>
+      <TouchableOpacity onPress={() => Linking.openURL(INTRO_URL)}>
         <Ionicons name='ios-earth' size={24} color={colors.textLight} />
       </TouchableOpacity>
     </View>

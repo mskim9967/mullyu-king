@@ -43,7 +43,7 @@ function App() {
               alignItems: 'center',
             }}
             onClick={() => {
-              window.location.href = 'http://3.35.123.82/';
+              window.location.href = 'https://xn--9v2bp8at11b.com/';
             }}
           >
             <MdTravelExplore style={{ fontSize: 27, color: 'white', marginRight: 10 }} />

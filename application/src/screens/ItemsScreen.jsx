@@ -8,6 +8,7 @@ import Category from '../components/Category';
 import ItemModal from '../components/ItemModal';
 import ItemList from '../components/ItemList';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 const Tab = createMaterialTopTabNavigator();
 
 const categoryBoxWidth = 60;
@@ -89,8 +90,6 @@ export default function ItemsScreen({ navigation }) {
             <Tab.Navigator
               screenOptions={{
                 tabBarScrollEnabled: true,
-                lazy: true,
-                lazyPreloadDistance: 2,
                 tabBarItemStyle: { width: 'auto' },
                 tabBarIndicatorStyle: { backgroundColor: colors.point1 },
                 tabBarStyle: {
@@ -104,6 +103,7 @@ export default function ItemsScreen({ navigation }) {
                   <Tab.Screen
                     name={category.name}
                     key={category.id}
+                    style={{ backgroundColor: colors.bgLight }}
                     children={() => (
                       <ItemList
                         key={category.id}
